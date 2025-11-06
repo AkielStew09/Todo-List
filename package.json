@@ -1,0 +1,31 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "A todo list. This is a project that will show off and sharpen my oop skills in javascript. Particularly  as it regards object creation, via factory functions or class syntax.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AkielStew09/Todo-List.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AkielStew09/Todo-List/issues"
+  },
+  "homepage": "https://github.com/AkielStew09/Todo-List#readme",
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "webpack": "^5.102.1"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.6.4",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  }
+}
