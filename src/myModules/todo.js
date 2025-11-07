@@ -1,30 +1,20 @@
 export class Todo{
     #id;
-    #name;
+    #title;
     #description;
+    #dueDate;
     #priority;
     #isCompleted;
-    #dueDate;
 
-    constructor(name, priority){
-        this.#name = name.trim();
-        this.#priority = priority;
+    constructor(title, des, ddate, prio){
+        this.#title = title;
+        this.#description = des;
+        this.#dueDate = ddate;
+        this.#priority = prio;
         this.#isCompleted = false;
         this.#id = crypto.randomUUID();
     }
-
-    set priority(prio){
-        this.#priority = prio;
-    }
-
-    set description(des){
-        this.#description = des;
-    }
-
-    set dueDate(ddate){
-        this.#dueDate = ddate;
-    }
-
+    
     complete(){
         this.#isCompleted = true;
     }
@@ -34,13 +24,39 @@ export class Todo{
 
 
     get info(){
-        return {
-            id: this.#id,
-            name: this.#name,
-            description: this.#description,
-            priority: this.#priority,
-            isCompleted: this.#isCompleted,
-            dueDate: this.#dueDate
+      return {
+          id: this.#id,
+          title: this.#title,
+          description: this.#description,
+          priority: this.#priority,
+          isCompleted: this.#isCompleted,
+          dueDate: this.#dueDate
         };
+
     }
+}
+
+export class Project{
+  //This class will have a title and an array of todos in it
+  constructor(title){
+    this.title = title;
+    this.todos = [];
+  }
+
+  addTodo(title, description, dueDate, priority){
+    this.todos.push(new Todo(title, description, dueDate, priority));
+    
+  }
+  removeTodo(id){
+    if(!this.todos.length) return;
+  
+    this.todos.forEach((todo_)=>{
+      if(todo_.info.id === id) delete todo_; 
+      return;
+    });
+  }
+
+  get count(){
+    return this.todos.length;
+  }
 }
