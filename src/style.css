@@ -1,3 +1,172 @@
-*, *::before, *::after{
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root {
+    /*background offwhite, the lightest one*/
+    --offWhite: #EDE3D1;
+
+    /*darker than first offWhite but still very light*/
+    --off2: #E8D1A2;
+
+
+    --litebrown-navbar: #E8B56F;
+    --lightYellow: #F2C050;
+    --yellow1: #EDB12F;
+    --paperBag: #B57828;
+    --darkorng: #A3620B;
+    --darkest: #3B2600;
+}
+
+.outfit-dusty {
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body,
+html {
+    background-color: var(--offWhite);
+    font-size: 1.18rem;
+    padding: 0;
+    margin: 0;
+    color: var(--darkest);
+}
+
+nav {
+    background-color: var(--litebrown-navbar);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid var(--paperBag);
+    padding: 1rem 2rem;
+    position: relative;
+
+}
+
+nav>* {
+    margin: 0;
+}
+
+nav .navlinks {
+    position: absolute;
+    right: 0.9rem;
+    display: flex;
+    gap: 2rem;
+
+    li {
+        list-style: none;
+    }
+}
+
+.content {
+    padding: 2rem 16rem;
+}
+
+.mainContainer {
+    margin-top: 3rem;
+    background-color: var(--off2);
+    height: 30rem;
+    border-radius: 1rem;
+    padding: 1rem 3rem;
+}
+
+.mainContainer h2 {
+    text-align: center;
+    font-weight: 200;
+}
+
+.mainContainer p {
+    margin: 1.2rem 4rem;
+    font-size: 1rem;
+}
+
+.projCont {
+    margin: 1rem 14rem 0 0;
+    background-color: var(--litebrown-navbar);
+    border: 2px solid var(--darkorng);
+    border-radius: 0.4rem;
+}
+
+.projCont h5 {
+    font-size: 1.1rem;
+}
+
+.projCont ul {
+    font-size: 1rem;
+}
+
+/*Project page*/
+
+.mainContainerProj {
+    margin-top: 3rem;
+    background-color: var(--yellow1);
+    min-height: 25rem;
+    border: 1.8px solid var(--paperBag);
+    border-radius: 1rem;
+    padding: 2rem 3rem;
+}
+
+.mainContainerProj h2 {
+    text-align: center;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.mainContainerProj h3 {
+    margin-top: 1.6rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.mainContainerProj p {
+    margin: 1.2rem 4rem;
+    font-size: 1rem;
+}
+
+.listedTodos {
+    margin: 1rem 0rem 0 0;
+    background-color: var(--lightYellow);
+    border: 2px solid var(--darkorng);
+    padding: 1.1rem 1.6rem;
+}
+
+.listedTodos h5 {
+    font-size: 1.1rem;
+}
+
+.listedTodos ul {
+    font-size: 1rem;
+}
+
+
+/*Todo page*/
+.mainContainerTodo {
+    margin-top: 3rem;
+    background-color: var(--lightYellow);
+    min-height: 25rem;
+    border: 1.8px solid var(--paperBag);
+    border-radius: 1rem;
+    padding: 2rem 3rem;
+}
+
+.mainContainerTodo h2 {
+    text-align: center;
+    font-weight: 600;
+    font-style: italic;
+}
+
+.mainContainerTodo h3 {
+    margin-top: 1.6rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.mainContainerTodo p {
+    margin: 1.2rem 4rem;
+    font-size: 1rem;
 }

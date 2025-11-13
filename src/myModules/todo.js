@@ -22,7 +22,6 @@ export class Todo{
         this.#isCompleted = false;
     }
 
-
     get info(){
       return {
           id: this.#id,
@@ -47,11 +46,16 @@ export class Project{
     this.todos.push(new Todo(title, description, dueDate, priority));
     
   }
+
   removeTodo(id){
+    //if there are no todos
     if(!this.todos.length) return;
   
-    this.todos.forEach((todo_)=>{
-      if(todo_.info.id === id) delete todo_; 
+    this.todos.forEach((todo_, index)=>{
+      //walk through the array until we find the right one, delete it and end the function
+      if(todo_.info.id === id) todo_ = null; 
+      this.todos.splice(index, 1);
+      
       return;
     });
   }
