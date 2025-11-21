@@ -1,3 +1,5 @@
+<!--a visual design of how the page for a project will look
+To be redone using js dom creating and appending-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500..900&display=swap" rel="stylesheet">
-    <title>Projects</title>
+    <title>Project Demo</title>
 </head>
 
 <body class="outfit-dusty">
@@ -31,6 +33,27 @@
             <div class="listedTodos">
                 <h5>Title</h5>
                 <span> - description of todo</span>
+            </div>
+            <!--when the above div.listedTodos is edited, it will turn to the below version.
+            A form version that takes in the new info for that todo. I'm writing it here just
+            to design it statically.-->
+            <div class="listedTodos">
+                <h4>Edit Todo</h4>
+                <input id="titleBox" type="text" placeholder="Title" class="todoTextbox">
+                <br>
+                <textarea id="descriptionBox" placeholder="Description" rows="3" cols="43"></textarea>
+                <label for="dueDate">Due Date:</label>
+                <input id="dueDate" type="date"> <br>
+                <select name="" id="priority">
+                    <option value="" selected disabled>Priority</option>
+                    <option value="low">Low</option>
+                    <option value="regular">Regular</option>
+                    <option value="high">High</option>
+                </select>
+                <div class="formBtns">
+                    <button id="saveEdit">Save</button>
+                    <button id="cancelEdit">Cancel</button>
+                </div>
             </div>
             <div class="listedTodos">
                 <h5>Title</h5>

@@ -103,7 +103,7 @@ nav .navlinks {
 /*Project page*/
 
 .mainContainerProj {
-    margin-top: 3rem;
+    margin-top: 1.1rem;
     background-color: var(--yellow1);
     min-height: 25rem;
     border: 1.8px solid var(--paperBag);
@@ -129,6 +129,11 @@ nav .navlinks {
 }
 
 .listedTodos {
+    h4 {
+        text-align: center;
+        color: saddlebrown;
+    }
+
     margin: 1rem 0rem 0 0;
     background-color: var(--lightYellow);
     border: 2px solid var(--darkorng);
@@ -136,7 +141,7 @@ nav .navlinks {
 }
 
 .listedTodos h5 {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
 }
 
 .listedTodos ul {
@@ -144,29 +149,64 @@ nav .navlinks {
 }
 
 
-/*Todo page*/
-.mainContainerTodo {
-    margin-top: 3rem;
-    background-color: var(--lightYellow);
-    min-height: 25rem;
-    border: 1.8px solid var(--paperBag);
-    border-radius: 1rem;
-    padding: 2rem 3rem;
-}
-
-.mainContainerTodo h2 {
-    text-align: center;
-    font-weight: 600;
-    font-style: italic;
-}
-
-.mainContainerTodo h3 {
-    margin-top: 1.6rem;
-    text-align: center;
-    font-weight: 600;
-}
-
-.mainContainerTodo p {
-    margin: 1.2rem 4rem;
+.listedTodos input,
+textarea {
+    all: unset;
     font-size: 1rem;
+    background-color: var(--offWhite);
+    border: 1.8px solid var(--darkorng);
+    color: black;
+    font-weight: 100;
+    padding: 0.3rem 0 0.3rem 0.5rem;
+    margin: 0.7rem 0;
+}
+
+.listedTodos label,
+option {
+    font-size: 1rem;
+    font-family: "Outfit", sans-serif;
+}
+
+.listedTodos select {
+    font-family: inherit;
+    font-size: 1rem;
+    background-color: var(--offWhite);
+    border: 2.5px solid var(--darkorng);
+    color: black;
+    font-weight: 100;
+    padding: 0.3rem 0 0.3rem 0.5rem;
+    margin: 0.7rem 0;
+}
+
+.listedTodos .formBtns {
+    margin-left: 70%;
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+
+    button {
+        all: unset;
+        font-size: 1rem;
+        padding: 0.3rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--paperBag);
+        }
+    }
+}
+
+/* .listedTodos .formBtns button:hover { */
+/*     background-color: var(--darkorng); */
+/**/
+/* } */
+
+#saveEdit {
+    color: green;
+    border: 2.5px solid var(--darkorng);
+}
+
+#cancelEdit {
+    color: darkslategray;
+    border: 2.5px solid var(--darkorng);
 }
