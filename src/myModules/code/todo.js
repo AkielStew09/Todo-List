@@ -1,4 +1,4 @@
-export class Todo{
+export class Todo {
     #id;
     #title;
     #description;
@@ -6,7 +6,7 @@ export class Todo{
     #priority;
     #isCompleted;
 
-    constructor(title, des, ddate, prio){
+    constructor(title, des, ddate, prio) {
         this.#title = title;
         this.#description = des;
         this.#dueDate = ddate;
@@ -14,53 +14,56 @@ export class Todo{
         this.#isCompleted = false;
         this.#id = crypto.randomUUID();
     }
-    
-    complete(){
+
+    complete() {
         this.#isCompleted = true;
     }
-    uncomplete(){
+    uncomplete() {
         this.#isCompleted = false;
     }
 
-    get info(){
-      return {
-          id: this.#id,
-          title: this.#title,
-          description: this.#description,
-          priority: this.#priority,
-          isCompleted: this.#isCompleted,
-          dueDate: this.#dueDate
+    get info() {
+        return {
+            id: this.#id,
+            title: this.#title,
+            description: this.#description,
+            priority: this.#priority,
+            isCompleted: this.#isCompleted,
+            dueDate: this.#dueDate
         };
 
     }
 }
 
-export class Project{
-  //This class will have a title and an array of todos in it
-  constructor(title){
-    this.title = title;
-    this.todos = [];
-  }
+export class Project {
+    //This class will have a title and an array of todos in it
+    constructor(title) {
+        this.title = title;
+        this.todos = [];
+    }
 
-  addTodo(title, description, dueDate, priority){
-    this.todos.push(new Todo(title, description, dueDate, priority));
-    
-  }
+    addTodo(title, description, dueDate, priority) {
+        this.todos.push(new Todo(title, description, dueDate, priority));
 
-  removeTodo(id){
-    //if there are no todos
-    if(!this.todos.length) return;
-  
-    this.todos.forEach((todo_, index)=>{
-      //walk through the array until we find the right one, delete it and end the function
-      if(todo_.info.id === id) todo_ = null; 
-      this.todos.splice(index, 1);
-      
-      return;
-    });
-  }
+    }
 
-  get count(){
-    return this.todos.length;
-  }
+    removeTodo(id) {
+        //if there are no todos
+        if (!this.todos.length) return;
+
+        this.todos.forEach((todo_, index) => {
+            //walk through the array until we find the right one, delete it and end the function
+            if (todo_.info.id === id) todo_ = null;
+            this.todos.splice(index, 1);
+
+            return;
+        });
+    }
+
+    get count() {
+        return this.todos.length;
+    }
 }
+
+//there should be a default project for when the user clicks to create a todo but has no projects.
+export let AppArray = [new Project("default")];
