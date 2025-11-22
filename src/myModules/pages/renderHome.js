@@ -24,6 +24,22 @@ export const renderHome = () => {
     h3.textContent = "Projects";
     mainContainer.appendChild(h3);
 
+    let createProjectBtn = document.createElement("button");
+    createProjectBtn.textContent = "Create Project";
+    mainContainer.appendChild(createProjectBtn);
+
+
+    let createTodoBtn = document.createElement("button");
+    createTodoBtn.textContent = "Create Todo";
+    mainContainer.appendChild(createTodoBtn);
+
+    const crProjectContainer = document.createElement("div");
+    crProjectContainer.classList.add("projCont");
+    const crProjTitle = document.createElement("h5");
+    crProjTitle.textContent = "Create New Project";
+    crProjectContainer.appendChild(crProjTitle);
+    //then add the name text box and the two buttons and append them
+
 
     const projContainer = document.createElement("div");
     projContainer.classList.add("projCont");
