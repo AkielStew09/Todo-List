@@ -37,9 +37,11 @@ export class Todo {
 
 export class Project {
     //This class will have a title and an array of todos in it
-    constructor(title) {
+    constructor(title, description = "") {
         this.title = title;
+        this.description = description;
         this.todos = [];
+        this.id = crypto.randomUUID();
     }
 
     addTodo(title, description, dueDate, priority) {
@@ -66,4 +68,4 @@ export class Project {
 }
 
 //there should be a default project for when the user clicks to create a todo but has no projects.
-export let AppArray = [new Project("default")];
+export let AppArray = [new Project("default", "This is the default project, where todos without a given project go")];

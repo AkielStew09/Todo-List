@@ -85,7 +85,7 @@ nav .navlinks {
 .mainContainer {
     margin-top: 3rem;
     background-color: var(--off2);
-    height: 30rem;
+    min-height: 30rem;
     border: 2px solid var(--darkorng);
     border-radius: 1rem;
     padding: 1rem 3rem;
@@ -223,4 +223,8 @@ option {
 #cancelEdit {
     color: darkslategray;
     border: 2.5px solid var(--darkorng);
+}
+
+.gone {
+    display: none;
 }
