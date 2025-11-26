@@ -152,7 +152,6 @@ nav .navlinks {
         color: saddlebrown;
     }
 
-    cursor: pointer;
     margin: 1rem 0rem 0 0;
     background-color: var(--lightYellow);
     border: 2px solid var(--darkorng);
@@ -198,31 +197,45 @@ option {
 }
 
 .listedTodos .formBtns {
-    margin-left: 70%;
+    /*border to help with designing*/
+    /* border: 2.5px solid blue; */
+    margin: 4% 0 0 0%;
     display: flex;
-    justify-content: center;
-    gap: 0.6rem;
+    justify-content: flex-end;
+    gap: 0.4rem;
 
-    button {
-        all: unset;
-        font-size: 1rem;
-        padding: 0.3rem;
-        cursor: pointer;
+}
 
-        &:hover {
-            background-color: var(--paperBag);
-        }
+button {
+    all: unset;
+    font-size: 1rem;
+    padding: 0.2rem;
+    cursor: pointer;
+    border: 1px solid var(--darkorng);
+
+    &:hover {
+        background-color: var(--paperBag);
     }
-}
 
-#saveEdit {
-    color: green;
-    border: 2.5px solid var(--darkorng);
-}
+    &#completeBtn {
+        color: darkred;
+    }
 
-#cancelEdit {
-    color: darkslategray;
-    border: 2.5px solid var(--darkorng);
+    &#editTodoBtn {
+        color: #b35300;
+    }
+
+    &#deleteBtn {
+        color: darkslategrey;
+    }
+
+    &#saveEdit {
+        color: green;
+    }
+
+    &#cancelEdit {
+        color: darkslategray;
+    }
 }
 
 .gone {

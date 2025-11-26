@@ -1,4 +1,4 @@
-//get Project so you can create a new project on this page. You'll need the constructor for that obviously.
+//get Project so you can create a new project on this page.
 import { Project } from "../code/todo.js";
 
 

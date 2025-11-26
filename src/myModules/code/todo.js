@@ -68,4 +68,4 @@ export class Project {
 }
 
 //there should be a default project for when the user clicks to create a todo but has no projects.
-export let AppArray = [new Project("default", "This is the default project, where todos without a given project go")];
+export let AppArray = [new Project("Project Title", "This is a real todo. If someone uploads something, it goes here. I want to show this on the page")];
