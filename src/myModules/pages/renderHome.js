@@ -1,6 +1,7 @@
 //get Project so you can create a new project on this page.
 import { Project } from "../code/todo.js";
-
+import { format } from "date-fns";
+import { renderProject } from "./renderProject.js";
 
 export const renderHome = (AppArray) => {
     const paraText = "Get-It-Done is a todo list app here to help you stay on top of your tasks. Add tasks and keep them organized in projects so you never miss a step or do one out of order. Enjoy the productivity and peace of mind that our proper record keeping offers."
@@ -41,14 +42,12 @@ export const renderHome = (AppArray) => {
     mainContainer.appendChild(createProjectBtn);
     mainContainer.appendChild(createTodoBtn);
 
-    //The div for creating a project. It will give a name textbox and 
+    //The div for creating a project. It will give a name textbox and
     //show save and edit buttons
     createProjectDiv(AppArray, mainContainer);
-
-    AppArray.forEach((proj) => {
+    AppArray.toReversed().forEach((proj) => {
         printProject(proj, mainContainer);
     });
-
 }
 
 function createProjectDiv(AppArray, mainContainer) {
@@ -56,8 +55,8 @@ function createProjectDiv(AppArray, mainContainer) {
     const crProjectContainer = document.createElement("div");
     //add class for design
     crProjectContainer.classList.add("projCont");
+    crProjectContainer.classList.add("createProjForm");
     //make it invisible by default
-    crProjectContainer.classList.add("gone");
     crProjectContainer.setAttribute("id", "createProjCont");
 
     //Title element
@@ -84,7 +83,7 @@ function createProjectDiv(AppArray, mainContainer) {
     npSaveBtn.textContent = "Save";
     npCancelBtn.textContent = "Cancel";
     npSaveBtn.addEventListener("click", () => { saveNewProject(AppArray); });
-    npCancelBtn.addEventListener("click", cancelNewProject);
+    npCancelBtn.addEventListener("click", toggleCreateProjDiv);
     //add the two buttons to the div
     newProjectTwoBtns.appendChild(npSaveBtn);
     newProjectTwoBtns.appendChild(npCancelBtn);
@@ -95,7 +94,7 @@ function createProjectDiv(AppArray, mainContainer) {
 }
 
 function toggleCreateProjDiv() {
-    document.getElementById("createProjCont").classList.toggle("gone");
+    document.getElementById("createProjCont").classList.toggle("show");
 }
 
 function printProject(proj, mainContainer) {
@@ -108,18 +107,21 @@ function printProject(proj, mainContainer) {
     h5.textContent = proj.title;
     projContainer.appendChild(h5);
 
+    //Print the todos of the project
     let tasksList = document.createElement("ul");
-
-    proj.todos.forEach((todo) => {
+    proj.todos.toReversed().forEach((todo) => {
         //make the li
         let listItem = document.createElement("li");
-        listItem.textContent = `${todo.info.title} - ${todo.info.dueDate}`;
+        let title = todo.info.title;
+        let dueDate = format(todo.info.dueDate, "dd/MMM/yyyy");
+        listItem.textContent = `${title}   -  Due ${dueDate}`;
         //add the li to the ul
         tasksList.appendChild(listItem);
     });
 
 
     projContainer.appendChild(tasksList);
+    projContainer.addEventListener("click", () => { renderProject(proj); })
     mainContainer.appendChild(projContainer);
 }
 
@@ -128,10 +130,7 @@ function saveNewProject(arr) {
     let newDesc = document.getElementById("newProjDesc").value;
     //This is where we use the Project class we imported
     arr.push(new Project(newTitle, newDesc));
-    cancelNewProject();
+    toggleCreateProjDiv();
     renderHome(arr);
 }
 
-function cancelNewProject() {
-    document.getElementById("createProjCont").classList.add("gone");
-}

@@ -6,7 +6,7 @@
 }
 
 :root {
-    /*background offwhite, the lightest one*/
+    /*background slightly offwhite, the lightest one*/
     --offWhite: #EDE3D1;
 
     /*darker than first offWhite but still very light*/
@@ -19,6 +19,8 @@
     --paperBag: #B57828;
     --darkorng: #A3620B;
     --darkest: #3B2600;
+
+    --darkestTransparent: #3B2600D0;
 }
 
 .outfit-dusty {
@@ -217,27 +219,62 @@ button {
         background-color: var(--paperBag);
     }
 
-    &#completeBtn {
+    &.completeBtn {
         color: darkred;
     }
 
-    &#editTodoBtn {
+    &.editTodoBtn {
         color: #b35300;
     }
 
-    &#deleteBtn {
+    &.deleteBtn {
         color: darkslategrey;
     }
 
-    &#saveEdit {
+    &.saveEdit {
         color: green;
     }
 
-    &#cancelEdit {
+    &.cancelEdit {
         color: darkslategray;
     }
 }
 
-.gone {
+.addTodoForm {
     display: none;
+}
+
+.createProjForm {
+    display: none;
+}
+
+.editTodoForm {
+    opacity: 1;
+}
+
+/* the popup's parent that darkens the screen */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: rgb(0 0 0 / 0.5); */
+    background: var(--darkestTransparent);
+    justify-content: center;
+    align-items: center;
+    padding: 0 20rem 0;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.addTodoForm.show {
+    display: block;
+}
+
+.createProjForm.show {
+    display: block;
 }

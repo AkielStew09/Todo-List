@@ -1,4 +1,4 @@
-export class Todo {
+class Todo {
     #id;
     #title;
     #description;
@@ -22,6 +22,13 @@ export class Todo {
         this.#isCompleted = false;
     }
 
+    //takes in a newInfo object by assignment
+    set setter(newInfo) {
+        this.#title = newInfo.title;
+        this.#description = newInfo.description;
+        this.#dueDate = newInfo.dueDate;
+        this.#priority = newInfo.priority;
+    }
     get info() {
         return {
             id: this.#id,
@@ -40,7 +47,7 @@ export class Project {
     constructor(title, description = "") {
         this.title = title;
         this.description = description;
-        this.todos = [];
+        this.todos = [new Todo("eg Todo", "this is a placeholder todo for me to try and edit", new Date(2026, 4, 25), "high")];
         this.id = crypto.randomUUID();
     }
 
@@ -50,16 +57,21 @@ export class Project {
     }
 
     removeTodo(id) {
-        //if there are no todos
         if (!this.todos.length) return;
 
-        this.todos.forEach((todo_, index) => {
-            //walk through the array until we find the right one, delete it and end the function
-            if (todo_.info.id === id) todo_ = null;
-            this.todos.splice(index, 1);
+        let index = this.todos.findIndex((td) => td.info.id === id);
+        console.log(`Deleting To-do "${this.todos[index].info.title}"`);
+        this.todos.splice(index, 1);
+    }
 
-            return;
-        });
+    editTodo(index, title, description, dueDate, priority) {
+        alert(`the index passed to the project.edit funtion is ${index}`);
+        this.todos[index].setter = { title, description, dueDate, priority };
+    }
+
+    getIndex(id) {
+        alert(`the id received by project.getIndex() is ${id}`);
+        return this.todos.findIndex((td) => td.info.id === id);
     }
 
     get count() {
@@ -68,4 +80,4 @@ export class Project {
 }
 
 //there should be a default project for when the user clicks to create a todo but has no projects.
-export let AppArray = [new Project("Project Title", "This is a real todo. If someone uploads something, it goes here. I want to show this on the page")];
+export let AppArray = [new Project("default", "This is the default project. When you create a todo without a project it goes here.")];
