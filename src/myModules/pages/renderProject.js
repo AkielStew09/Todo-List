@@ -22,9 +22,9 @@ export const renderProject = (project) => {
 }
 
 const printTodos = (project) => {
-    //project.todos is the project's array of todos.
     //I'm returning an array of divs, each based on a todo using map
     //then joining them into one string with join("")
+    //this fn returns that string
     let todoDivs = project.todos.toReversed().map(
         (todo) => `
             <div class="listedTodos" data-id=${todo.info.id}>
@@ -40,6 +40,7 @@ const printTodos = (project) => {
     );
     return todoDivs.join("");
 }
+
 //print the Add Todo form, invisible by default
 const printAddForm = () => {
 
@@ -64,6 +65,16 @@ const printAddForm = () => {
         </div>
     </div>
     `;
+}
+const addNewTodo = (project) => {
+    const newTitle = document.getElementById("newTitleBox").value;
+    const newDesc = document.getElementById("newDescriptionBox").value;
+    const newDate = document.getElementById("newDueDate").valueAsDate;
+    const newPrio = document.getElementById("newPriority").value;
+    //make new todo based on form input
+    project.addTodo(newTitle, newDesc, newDate, newPrio);
+    //reload the page
+    renderProject(project);
 }
 
 //print the Edit Todo form, invisible by default
@@ -93,43 +104,7 @@ const printEditForm = () => {
     `;
 }
 
-
-const addTheEvents = (project) => {
-    document.getElementById("saveAdd").addEventListener("click", () => { addNewTodo(project) });
-    document.getElementById("addTodoBtn").addEventListener("click", toggleAddTodoForm);
-    document.getElementById("cancelAdd").addEventListener("click", toggleAddTodoForm);
-    //program all the todos' buttons with forEach
-    //get doesn't return an array, so convert it with Array.from()
-    Array.from(document.getElementsByClassName("editTodoBtn")).forEach((editBtn) => {
-        editBtn.addEventListener("click", (e) => { populateEditTodoForm(getIndex(e, project), project) });
-    });
-    document.getElementById("cancelEdit").addEventListener("click", toggleEditTodoForm);
-    document.getElementById("saveEdit").addEventListener("click", (e) => saveEdit(getIndex(e, project), project));
-}
-
-const getIndex = (e, project) => {
-    let todoDiv = e.currentTarget.parentElement.parentElement;
-    if (todoDiv.id) alert(`the element selected is ${todoDiv.tagName}#${todoDiv.id}`);
-    alert(`its random id is ${todoDiv.dataset.id}`);
-    let todoId = todoDiv.dataset.id;
-    return project.getIndex(todoId);
-}
-
-const addNewTodo = (project) => {
-    const newTitle = document.getElementById("newTitleBox").value;
-    const newDesc = document.getElementById("newDescriptionBox").value;
-    const newDate = document.getElementById("newDueDate").valueAsDate;
-    const newPrio = document.getElementById("newPriority").value;
-    //make new todo based on form input
-    project.addTodo(newTitle, newDesc, newDate, newPrio);
-    //reload the page
-    renderProject(project);
-}
-
-const toggleAddTodoForm = () => { document.querySelector("#addTodoForm").classList.toggle("show") }
-const toggleEditTodoForm = () => { document.querySelector(".overlay").classList.toggle("show") }
-
-
+//Fill in the values to the edit form
 const populateEditTodoForm = (i, proj) => {
     let oldInfo = proj.todos[i].info;
     const edForm = document.querySelector("#editTodoForm");
@@ -146,6 +121,7 @@ const populateEditTodoForm = (i, proj) => {
     toggleEditTodoForm();
 }
 
+//Saves Changes to a Todo
 const saveEdit = (i, prj) => {
     const ttl = document.querySelector("#titleBox").value;
     const desc = document.querySelector("#descriptionBox").value;
@@ -156,4 +132,29 @@ const saveEdit = (i, prj) => {
     toggleEditTodoForm();
     //reload the page
     renderProject(prj);
+}
+
+
+const getIndex = (e, project) => {
+    let todoDiv = e.currentTarget.parentElement.parentElement;
+    let todoId = todoDiv.dataset.id;
+    return project.getIndex(todoId);
+}
+
+
+const toggleAddTodoForm = () => { document.querySelector("#addTodoForm").classList.toggle("show") }
+const toggleEditTodoForm = () => { document.querySelector(".overlay").classList.toggle("show") }
+
+//Apply all the event listeners to the buttons we need
+const addTheEvents = (project) => {
+    document.getElementById("saveAdd").addEventListener("click", () => { addNewTodo(project) });
+    document.getElementById("addTodoBtn").addEventListener("click", toggleAddTodoForm);
+    document.getElementById("cancelAdd").addEventListener("click", toggleAddTodoForm);
+    //program all the todos' buttons with forEach
+    //get doesn't return an array, so convert it with Array.from()
+    Array.from(document.getElementsByClassName("editTodoBtn")).forEach((editBtn) => {
+        editBtn.addEventListener("click", (e) => { populateEditTodoForm(getIndex(e, project), project) });
+    });
+    document.getElementById("cancelEdit").addEventListener("click", toggleEditTodoForm);
+    document.getElementById("saveEdit").addEventListener("click", (e) => saveEdit(getIndex(e, project), project));
 }
