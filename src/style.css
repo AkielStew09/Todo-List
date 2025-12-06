@@ -120,7 +120,7 @@ nav .navlinks {
     font-size: 1rem;
 }
 
-.minorText {
+.minorTextHome {
     font-size: 80%;
     color: var(--darkorng);
     margin-left: 2em;
@@ -169,6 +169,13 @@ nav .navlinks {
 
 .listedTodos h5 {
     font-size: 1.3rem;
+}
+
+.minorTextProj {
+    display: block;
+    font-size: 80%;
+    color: var(--darkorng);
+    margin-bottom: 1rem;
 }
 
 .listedTodos ul {
@@ -227,6 +234,10 @@ button {
     }
 
     &.completeBtn {
+        color: darkgreen;
+    }
+
+    &.incompleteBtn {
         color: darkred;
     }
 

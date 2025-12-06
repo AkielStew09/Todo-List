@@ -15,11 +15,14 @@ class Todo {
         this.#id = crypto.randomUUID();
     }
 
+    //toggles Completion
     complete() {
-        this.#isCompleted = true;
-    }
-    uncomplete() {
-        this.#isCompleted = false;
+
+        if (this.#isCompleted)
+            this.#isCompleted = false;
+        else
+            this.#isCompleted = true;
+
     }
 
     //takes in a newInfo object by assignment
@@ -51,6 +54,9 @@ export class Project {
         this.id = crypto.randomUUID();
     }
 
+    get count() {
+        return this.todos.length;
+    }
     addTodo(title, description, dueDate, priority) {
         this.todos.push(new Todo(title, description, dueDate, priority));
 
@@ -71,8 +77,12 @@ export class Project {
         return this.todos.findIndex((td) => td.info.id === id);
     }
 
-    get count() {
-        return this.todos.length;
+    getCompletion(index) {
+        return this.todos[index].info.isCompleted;
+    }
+
+    toggleCompletion(index) {
+        this.todos[index].complete();
     }
 }
 

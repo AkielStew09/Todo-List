@@ -26,17 +26,31 @@ const printTodos = (project) => {
     //then joining them into one string with join("")
     //this fn returns that string
     let todoDivs = project.todos.toReversed().map(
-        (todo) => `
-            <div class="listedTodos" data-id=${todo.info.id}>
-                <h5>${todo.info.title}</h5>
-                <span> - ${todo.info.description}</span>
+        (todo) => {
+            const info = todo.info;
+
+            const id = info.id;
+            const title = info.title;
+            const desc = info.description;
+            const dateStr = format(info.dueDate, "dd MMM yyyy");
+            //this makes the first letter of the priority uppercase
+            const prio = info.priority.slice(0, 1).toUpperCase() + info.priority.slice(1);
+            const done = info.isCompleted;
+            // prefix for the className on the complete button
+            const prefix = done ? "" : "in";
+            return `
+            <div class="listedTodos" data-id=${id}>
+                <h5>${title}</h5>
+                <span class="minorTextProj">- ${prio} Priority, Due ${dateStr}</span>
+                ${desc}
                 <div class="formBtns">
-                    <button id="completeBtn" class="completeBtn">Incomplete</button>
+                    <button id="completeBtn" class="${prefix}completeBtn">${done ? "Complete" : "Incomplete!"}</button>
                     <button id="editTodoBtn" class="editTodoBtn">Edit</button>
                     <button id="deleteBtn" class="deleteBtn">Delete</button>
                 </div>
             </div >
-        `
+            `;
+        }
     );
     return todoDivs.join("");
 }
