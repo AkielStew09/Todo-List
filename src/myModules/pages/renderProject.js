@@ -1,7 +1,6 @@
-//get Todo so we can edit our todos
-import { Todo } from "../code/todo.js";
+import { format } from "date-fns";
 
-export const renderProject = (project) => {
+export const renderProject = (project, showAddForm = 0) => {
     //retrieve the content div and put all the page stuff in it via innerHTML
     const CONTENT = document.getElementById("content");
     CONTENT.innerHTML = `
@@ -19,6 +18,7 @@ export const renderProject = (project) => {
     `;
     //add event listeners to the buttons we just put on the screen
     addTheEvents(project);
+    if (showAddForm) toggleAddTodoForm();
 }
 
 const printTodos = (project) => {
@@ -66,16 +66,6 @@ const printAddForm = () => {
     </div>
     `;
 }
-const addNewTodo = (project) => {
-    const newTitle = document.getElementById("newTitleBox").value;
-    const newDesc = document.getElementById("newDescriptionBox").value;
-    const newDate = document.getElementById("newDueDate").valueAsDate;
-    const newPrio = document.getElementById("newPriority").value;
-    //make new todo based on form input
-    project.addTodo(newTitle, newDesc, newDate, newPrio);
-    //reload the page
-    renderProject(project);
-}
 
 //print the Edit Todo form, invisible by default
 const printEditForm = () => {
@@ -88,7 +78,7 @@ const printEditForm = () => {
             <textarea id="descriptionBox" placeholder="Description" rows="3" cols="43"></textarea>
             <label for="dueDate">Due Date:</label>
             <br>
-            <input id="dueDate" type="date"> 
+            <input id="dueDate" type="date" min="${format(Date.now(), "yyyy-MM-dd")}">
             <select name="" id="priority">
                 <option value="" selected disabled>Priority</option>
                 <option value="low">Low</option>
@@ -104,9 +94,28 @@ const printEditForm = () => {
     `;
 }
 
+const addNewTodo = (project) => {
+    const newTitle = document.getElementById("newTitleBox").value;
+    const newDesc = document.getElementById("newDescriptionBox").value;
+    const newDate = document.getElementById("newDueDate").valueAsDate;
+    const newPrio = document.getElementById("newPriority").value;
+    //make new todo based on form input
+    project.addTodo(newTitle, newDesc, newDate, newPrio);
+    //reload the page
+    renderProject(project);
+}
+
+const deleteTodo = (event, project) => {
+    const index = getIndex(event, project);
+    project.removeTodo(index);
+    renderProject(project);
+}
+
+
 //Fill in the values to the edit form
-const populateEditTodoForm = (i, proj) => {
-    let oldInfo = proj.todos[i].info;
+const populateEditTodoForm = (event, proj) => {
+    const i = getIndex(event, proj);
+    const oldInfo = proj.todos[i].info;
     const edForm = document.querySelector("#editTodoForm");
     const titleBox = document.querySelector("#titleBox");
     const descriptionBox = document.querySelector("#descriptionBox");
@@ -122,7 +131,9 @@ const populateEditTodoForm = (i, proj) => {
 }
 
 //Saves Changes to a Todo
-const saveEdit = (i, prj) => {
+const saveEdit = (event, prj) => {
+    const i = getIndex(event, prj);
+
     const ttl = document.querySelector("#titleBox").value;
     const desc = document.querySelector("#descriptionBox").value;
     const date = document.querySelector("#dueDate").valueAsDate;
@@ -135,6 +146,7 @@ const saveEdit = (i, prj) => {
 }
 
 
+//returns the index of a todo given the event and the project
 const getIndex = (e, project) => {
     let todoDiv = e.currentTarget.parentElement.parentElement;
     let todoId = todoDiv.dataset.id;
@@ -145,16 +157,21 @@ const getIndex = (e, project) => {
 const toggleAddTodoForm = () => { document.querySelector("#addTodoForm").classList.toggle("show") }
 const toggleEditTodoForm = () => { document.querySelector(".overlay").classList.toggle("show") }
 
-//Apply all the event listeners to the buttons we need
+//Put all the event listeners on the buttons we need
 const addTheEvents = (project) => {
     document.getElementById("saveAdd").addEventListener("click", () => { addNewTodo(project) });
     document.getElementById("addTodoBtn").addEventListener("click", toggleAddTodoForm);
     document.getElementById("cancelAdd").addEventListener("click", toggleAddTodoForm);
     //program all the todos' buttons with forEach
-    //get doesn't return an array, so convert it with Array.from()
-    Array.from(document.getElementsByClassName("editTodoBtn")).forEach((editBtn) => {
-        editBtn.addEventListener("click", (e) => { populateEditTodoForm(getIndex(e, project), project) });
+    //getElements doesn't return an array, so convert it to one with Array.from()
+    const editButtons = Array.from(document.getElementsByClassName("editTodoBtn"));
+    editButtons.forEach((editBtn) => {
+        editBtn.addEventListener("click", (e) => { populateEditTodoForm(e, project) });
+    });
+    const deleteButtons = Array.from(document.getElementsByClassName("deleteBtn"));
+    deleteButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => { deleteTodo(e, project) });
     });
     document.getElementById("cancelEdit").addEventListener("click", toggleEditTodoForm);
-    document.getElementById("saveEdit").addEventListener("click", (e) => saveEdit(getIndex(e, project), project));
+    document.getElementById("saveEdit").addEventListener("click", (e) => saveEdit(e, project));
 }

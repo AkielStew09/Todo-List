@@ -30,22 +30,23 @@ export const renderHome = (AppArray) => {
     h3.textContent = "Projects";
     mainContainer.appendChild(h3);
 
-    //
     let createProjectBtn = document.createElement("button");
     createProjectBtn.textContent = "Create Project";
     createProjectBtn.addEventListener("click", toggleCreateProjDiv);
 
     let createTodoBtn = document.createElement("button");
     createTodoBtn.textContent = "Create Todo";
-    //this should have a listener that brings you to default's project page
+    //a listener that brings you to the default project page
+    createTodoBtn.addEventListener("click", () => sendToDefault(AppArray));
 
     mainContainer.appendChild(createProjectBtn);
     mainContainer.appendChild(createTodoBtn);
 
-    //The div for creating a project. It will give a name textbox and
-    //show save and edit buttons
+    //Append the div for creating a project.
     createProjectDiv(AppArray, mainContainer);
+
     AppArray.toReversed().forEach((proj) => {
+        //Append the div for a project.
         printProject(proj, mainContainer);
     });
 }
@@ -96,6 +97,9 @@ function createProjectDiv(AppArray, mainContainer) {
 function toggleCreateProjDiv() {
     document.getElementById("createProjCont").classList.toggle("show");
 }
+function sendToDefault(AppArray) {
+    renderProject(AppArray[0], 1);
+}
 
 function printProject(proj, mainContainer) {
 
@@ -108,19 +112,22 @@ function printProject(proj, mainContainer) {
     projContainer.appendChild(h5);
 
     //Print the todos of the project
-    let tasksList = document.createElement("ul");
+    let todosList = document.createElement("ul");
+    //for each todo in the project, we make an li and
+    //append it to todosList
     proj.todos.toReversed().forEach((todo) => {
-        //make the li
+        //retrieve the title then due date of the todo
+        const title = todo.info.title;
+        const dueDate = format(todo.info.dueDate, "dd/MMM/yyyy");
+        //make the li and set its textContent to the retrieved info
         let listItem = document.createElement("li");
-        let title = todo.info.title;
-        let dueDate = format(todo.info.dueDate, "dd/MMM/yyyy");
-        listItem.textContent = `${title}   -  Due ${dueDate}`;
+        listItem.innerHTML = `${title} <span class="minorText">- Due ${dueDate}</span>`;
         //add the li to the ul
-        tasksList.appendChild(listItem);
+        todosList.appendChild(listItem);
     });
 
 
-    projContainer.appendChild(tasksList);
+    projContainer.appendChild(todosList);
     projContainer.addEventListener("click", () => { renderProject(proj); })
     mainContainer.appendChild(projContainer);
 }
@@ -128,9 +135,11 @@ function printProject(proj, mainContainer) {
 function saveNewProject(arr) {
     let newTitle = document.getElementById("newProjName").value;
     let newDesc = document.getElementById("newProjDesc").value;
-    //This is where we use the Project class we imported
+    //Create new project and push it to AppArray, using the Class we imported
     arr.push(new Project(newTitle, newDesc));
+    //hide the create form
     toggleCreateProjDiv();
+    //reload page
     renderHome(arr);
 }
 

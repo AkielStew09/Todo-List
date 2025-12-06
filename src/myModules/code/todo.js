@@ -47,7 +47,7 @@ export class Project {
     constructor(title, description = "") {
         this.title = title;
         this.description = description;
-        this.todos = [new Todo("eg Todo", "this is a placeholder todo for me to try and edit", new Date(2026, 4, 25), "high")];
+        this.todos = [new Todo("eg Todo", "this is a placeholder todo for me to practice editing", new Date(2026, 4, 25), "high")];
         this.id = crypto.randomUUID();
     }
 
@@ -56,21 +56,18 @@ export class Project {
 
     }
 
-    removeTodo(id) {
+    removeTodo(index) {
         if (!this.todos.length) return;
 
-        let index = this.todos.findIndex((td) => td.info.id === id);
         console.log(`Deleting To-do "${this.todos[index].info.title}"`);
         this.todos.splice(index, 1);
     }
 
     editTodo(index, title, description, dueDate, priority) {
-        alert(`the index passed to the project.edit funtion is ${index}`);
         this.todos[index].setter = { title, description, dueDate, priority };
     }
 
     getIndex(id) {
-        alert(`the id received by project.getIndex() is ${id}`);
         return this.todos.findIndex((td) => td.info.id === id);
     }
 
