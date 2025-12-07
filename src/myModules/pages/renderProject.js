@@ -44,7 +44,7 @@ const printTodos = (project) => {
                 <span class="minorTextProj">- ${prio} Priority, Due ${dateStr}</span>
                 ${desc}
                 <div class="formBtns">
-                    <button id="completeBtn" class="${prefix}completeBtn">${done ? "Complete" : "Incomplete!"}</button>
+                    <button id="completeBtn" class="${prefix}completeBtn switch">${done ? "Complete" : "Incomplete!"}</button>
                     <button id="editTodoBtn" class="editTodoBtn">Edit</button>
                     <button id="deleteBtn" class="deleteBtn">Delete</button>
                 </div>
@@ -57,7 +57,10 @@ const printTodos = (project) => {
 
 //print the Add Todo form, invisible by default
 const printAddForm = () => {
-
+    //get today's date in the accepted string format. 
+    //then set that as the minimum and default value for the datePicker
+    //so I never get a null value from this date input
+    const minDate = format(Date.now(), "yyyy-MM-dd");
     return `
     <div id="addTodoForm" class="listedTodos addTodoForm">
         <h4>Add a New Todo</h4>
@@ -66,7 +69,7 @@ const printAddForm = () => {
         <textarea id="newDescriptionBox" placeholder="Description:" rows="3" cols="43"></textarea>
         <label for="dueDate">Due Date:</label>
         <br>
-        <input id="newDueDate" type="date"> 
+        <input id="newDueDate" type="date" min="${minDate}" value="${minDate}"> 
         <select name="" id="newPriority">
             <option value="" selected disabled>Priority</option>
             <option value="low">Low</option>
@@ -83,6 +86,7 @@ const printAddForm = () => {
 
 //print the Edit Todo form, invisible by default
 const printEditForm = () => {
+    const minDate = format(Date.now(), "yyyy-MM-dd");
     return `
     <div class="overlay">
         <div id = "editTodoForm" class="listedTodos editTodoForm">
@@ -92,7 +96,7 @@ const printEditForm = () => {
             <textarea id="descriptionBox" placeholder="Description" rows="3" cols="43"></textarea>
             <label for="dueDate">Due Date:</label>
             <br>
-            <input id="dueDate" type="date" min="${format(Date.now(), "yyyy-MM-dd")}">
+            <input id="dueDate" type="date" min="${minDate}">
             <select name="" id="priority">
                 <option value="" selected disabled>Priority</option>
                 <option value="low">Low</option>
@@ -107,11 +111,14 @@ const printEditForm = () => {
     </div>
     `;
 }
-
+//ADD
 const addNewTodo = (project) => {
+    //.value gives a date string and I add the T stuff so it doesn't assume UTC midnight
+    const dateString = document.getElementById("newDueDate").value + "T23:59:00";
+
     const newTitle = document.getElementById("newTitleBox").value;
     const newDesc = document.getElementById("newDescriptionBox").value;
-    const newDate = document.getElementById("newDueDate").valueAsDate;
+    const newDate = new Date(dateString);
     const newPrio = document.getElementById("newPriority").value;
     //make new todo based on form input
     project.addTodo(newTitle, newDesc, newDate, newPrio);
@@ -119,55 +126,79 @@ const addNewTodo = (project) => {
     renderProject(project);
 }
 
+
+//DELETE
 const deleteTodo = (event, project) => {
     const index = getIndex(event, project);
-    project.removeTodo(index);
+    let result = confirm(`You are about to delete the todo "${project.todos[index].info.title}".`);
+    if (result) {
+        project.removeTodo(index);
+        renderProject(project);
+    } else
+        return;
+}
+
+//TOGGLE COMPLETE
+const completeTodo = (event, project) => {
+    //get the index
+    const index = getIndex(event, project);
+    //complete or uncomplete the todo given the index
+    project.toggleCompletion(index);
+    //reload page to show completion change
     renderProject(project);
 }
 
-
-//Fill in the values to the edit form
-const populateEditTodoForm = (event, proj) => {
-    const i = getIndex(event, proj);
-    const oldInfo = proj.todos[i].info;
-    const edForm = document.querySelector("#editTodoForm");
-    const titleBox = document.querySelector("#titleBox");
-    const descriptionBox = document.querySelector("#descriptionBox");
-    const datePicker = document.querySelector("#dueDate");
-    const priority = document.querySelector("#priority");
-
-    edForm.dataset.id = oldInfo.id;
-    titleBox.value = oldInfo.title;
-    descriptionBox.value = oldInfo.description;
-    datePicker.valueAsDate = oldInfo.dueDate;
-    priority.value = oldInfo.priority;
-    toggleEditTodoForm();
-}
-
-//Saves Changes to a Todo
+//EDIT
 const saveEdit = (event, prj) => {
-    const i = getIndex(event, prj);
-
+    //retrieve the new info inputted
     const ttl = document.querySelector("#titleBox").value;
     const desc = document.querySelector("#descriptionBox").value;
-    const date = document.querySelector("#dueDate").valueAsDate;
+    let dateInput = document.querySelector("#dueDate").value;
     const prio = document.querySelector("#priority").value;
+    //add the T time part so it doesn't default to 
+    //UTC midnight, which implies the previous day for Jamaica,
+    //which sets the date back a day
+    let dateString = dateInput + "T23:59:00";
+    const date = new Date(dateString);
 
-    prj.editTodo(i, ttl, desc, date, prio);
+    const index = getIndex(event, prj);
+    prj.editTodo(index, ttl, desc, date, prio);
     toggleEditTodoForm();
     //reload the page
     renderProject(prj);
 }
 
+//Fill in the values of the edit form
+const populateEditTodoForm = (event, proj) => {
+    const index = getIndex(event, proj);
+    //retrieve the todo's old info
+    const oldInfo = proj.todos[index].info;
 
-//returns the index of a todo given the event and the project
+    //retrieve the whole form div so I can give it a data attribute to store the todo id
+    const edForm = document.querySelector("#editTodoForm");
+    //retrieve the input elements
+    const titleBox = document.querySelector("#titleBox");
+    const descriptionBox = document.querySelector("#descriptionBox");
+    const datePicker = document.querySelector("#dueDate");
+    const priority = document.querySelector("#priority");
+
+    //set the data attribute and show the old input values
+    edForm.dataset.id = oldInfo.id;
+    titleBox.value = oldInfo.title;
+    descriptionBox.value = oldInfo.description;
+    datePicker.value = format(oldInfo.dueDate, "yyyy-MM-dd");
+    priority.value = oldInfo.priority;
+    toggleEditTodoForm();
+}
+
+//return the index of a todo given the event and the project
 const getIndex = (e, project) => {
     let todoDiv = e.currentTarget.parentElement.parentElement;
     let todoId = todoDiv.dataset.id;
     return project.getIndex(todoId);
 }
 
-
+//functions for showing the add and edit forms
 const toggleAddTodoForm = () => { document.querySelector("#addTodoForm").classList.toggle("show") }
 const toggleEditTodoForm = () => { document.querySelector(".overlay").classList.toggle("show") }
 
@@ -186,6 +217,11 @@ const addTheEvents = (project) => {
     deleteButtons.forEach((btn) => {
         btn.addEventListener("click", (e) => { deleteTodo(e, project) });
     });
-    document.getElementById("cancelEdit").addEventListener("click", toggleEditTodoForm);
+
+    const completeButtons = Array.from(document.getElementsByClassName("switch"));
+    completeButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => { completeTodo(e, project) });
+    });
     document.getElementById("saveEdit").addEventListener("click", (e) => saveEdit(e, project));
+    document.getElementById("cancelEdit").addEventListener("click", toggleEditTodoForm);
 }

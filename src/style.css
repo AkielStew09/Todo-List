@@ -85,9 +85,9 @@ nav .navlinks {
 }
 
 .mainContainer {
-    margin-top: 3rem;
+    margin-top: 2rem;
     background-color: var(--off2);
-    min-height: 30rem;
+    min-height: 23rem;
     border: 2px solid var(--darkorng);
     border-radius: 1rem;
     padding: 1rem 3rem;

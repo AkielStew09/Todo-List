@@ -11,6 +11,7 @@ class Todo {
         this.#description = des;
         this.#dueDate = ddate;
         this.#priority = prio;
+
         this.#isCompleted = false;
         this.#id = crypto.randomUUID();
     }
@@ -50,7 +51,7 @@ export class Project {
     constructor(title, description = "") {
         this.title = title;
         this.description = description;
-        this.todos = [new Todo("eg Todo", "this is a placeholder todo for me to practice editing", new Date(2026, 4, 25), "high")];
+        this.todos = [new Todo("eg Todo", "placeholder todo", new Date("2026-05-25T23:59:00"), "high")];
         this.id = crypto.randomUUID();
     }
 
@@ -75,10 +76,6 @@ export class Project {
 
     getIndex(id) {
         return this.todos.findIndex((td) => td.info.id === id);
-    }
-
-    getCompletion(index) {
-        return this.todos[index].info.isCompleted;
     }
 
     toggleCompletion(index) {
