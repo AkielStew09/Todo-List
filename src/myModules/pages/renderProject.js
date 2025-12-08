@@ -67,7 +67,8 @@ const printAddForm = () => {
         <h4>Add a New Todo</h4>
         <input id="newTitleBox" type="text" placeholder="Title:" class="todoTextbox">
         <br>
-        <textarea id="newDescriptionBox" placeholder="Description:" rows="3" cols="43"></textarea>
+        <textarea id="newDescriptionBox" placeholder="Description:" rows="3" cols="25"></textarea>
+        <br>
         <label for="dueDate">Due Date:</label>
         <br>
         <input id="newDueDate" type="date" min="${minDate}" value="${minDate}"> 
@@ -94,7 +95,7 @@ const printEditForm = () => {
             <h4>Edit Todo</h4>
             <input id="titleBox" type="text" placeholder="Title" class="todoTextbox">
             <br>
-            <textarea id="descriptionBox" placeholder="Description" rows="3" cols="43"></textarea>
+            <textarea id="descriptionBox" placeholder="Description" rows="3"></textarea>
             <label for="dueDate">Due Date:</label>
             <br>
             <input id="dueDate" type="date" min="${minDate}">

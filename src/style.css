@@ -60,22 +60,22 @@ nav {
     & h1 {
         &:hover {
             cursor: pointer;
-            padding: 3px;
+            padding: 1%;
             text-decoration: underline;
         }
     }
 
 }
 
-nav>* {
-    margin: 0;
-}
+/* nav>* { */
+/*     margin: 0; */
+/* } */
 
 nav .navlinks {
     position: absolute;
     right: 0.9rem;
     display: flex;
-    gap: 1.5rem;
+    gap: 1.5vw;
 
     li {
         list-style: none;
@@ -90,7 +90,7 @@ nav .navlinks {
 }
 
 .content {
-    padding: 2rem 16rem;
+    padding: 2rem 22vw;
 }
 
 .mainContainer {
@@ -99,7 +99,7 @@ nav .navlinks {
     min-height: 23rem;
     border: 2px solid var(--darkorng);
     border-radius: 1rem;
-    padding: 1rem 3rem;
+    padding: 1rem 10%;
 }
 
 .mainContainer h3 {
@@ -209,22 +209,32 @@ nav .navlinks {
 }
 
 
-.listedTodos input,
+input,
 textarea {
     all: unset;
+    box-sizing: border-box;
     font-size: 1rem;
     background-color: var(--offWhite);
     border: 1.8px solid var(--darkorng);
     color: black;
     font-weight: 100;
-    padding: 0.3rem 0 0.3rem 0.5rem;
+    padding: 0.3rem 0.5rem 0.3rem;
     margin: 0.7rem 0;
+}
+
+textarea {
+    width: 100%;
 }
 
 .listedTodos label,
 option {
     font-size: 1rem;
     font-family: "Outfit", sans-serif;
+}
+
+.listedTodos.addTodoForm textarea {
+    max-width: 100%;
+    padding: 0 7% 0 inherit;
 }
 
 .listedTodos select {
@@ -252,6 +262,7 @@ button {
     all: unset;
     font-size: 1rem;
     padding: 0.2rem;
+    margin: 2% 1% 0 0;
     cursor: pointer;
     border: 1px solid var(--darkorng);
 
@@ -290,6 +301,7 @@ button {
 
 .createProjForm {
     display: none;
+    padding: 1.6% 4%;
 }
 
 .editTodoForm {
@@ -321,4 +333,39 @@ button {
 
 .createProjForm.show {
     display: block;
+}
+
+@media (max-width: 890px) {
+
+    nav {
+        flex-direction: column;
+        justify-content: start;
+        gap: 1rem;
+        position: static;
+    }
+
+    nav .navlinks {
+        flex-direction: column;
+        position: static;
+    }
+
+}
+
+@media (max-width: 780px) {
+    html {
+        font-size: 95%;
+    }
+
+    nav h1 {
+        font-size: 7vw;
+    }
+
+    .content {
+        padding: 2% 6%;
+    }
+
+    .mainContainer {
+        padding: 3% 3%;
+
+    }
 }
