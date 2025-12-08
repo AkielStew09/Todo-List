@@ -144,6 +144,8 @@ function createProjectDiv(AppArray, mainContainer) {
     nameBox.setAttribute("id", "newProjName");
     crProjectContainer.appendChild(nameBox);
 
+    crProjectContainer.innerHTML += `<br>`;
+
     const descBox = document.createElement("textarea");
     descBox.setAttribute("placeholder", "Project-description");
     descBox.setAttribute("id", "newProjDesc");
