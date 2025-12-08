@@ -25,23 +25,24 @@ const printTodos = (project) => {
     //I'm returning an array of divs, each based on a todo using map
     //then joining them into one string with join("")
     //this fn returns that string
-    let todoDivs = project.todos.toReversed().map(
+    let todoDivs = project.todos.map(
         (todo) => {
             const info = todo.info;
 
             const id = info.id;
             const title = info.title;
             const desc = info.description;
-            const dateStr = format(info.dueDate, "dd MMM yyyy");
-            //this makes the first letter of the priority uppercase
-            const prio = info.priority.slice(0, 1).toUpperCase() + info.priority.slice(1);
+            const dateDisplay = format(info.dueDate, "dd MMM yyyy");
+            const prioStr = priorityString(info.priority);
             const done = info.isCompleted;
-            // prefix for the className on the complete button
+
+            //prefix for the className on the complete button
+            //adds an 'in' if the todo is incomplete
             const prefix = done ? "" : "in";
             return `
             <div class="listedTodos" data-id=${id}>
                 <h5>${title}</h5>
-                <span class="minorTextProj">- ${prio} Priority, Due ${dateStr}</span>
+                <span class="minorTextProj">- ${prioStr} Priority, Due ${dateDisplay}</span>
                 ${desc}
                 <div class="formBtns">
                     <button id="completeBtn" class="${prefix}completeBtn switch">${done ? "Complete" : "Incomplete!"}</button>
@@ -72,9 +73,9 @@ const printAddForm = () => {
         <input id="newDueDate" type="date" min="${minDate}" value="${minDate}"> 
         <select name="" id="newPriority">
             <option value="" selected disabled>Priority</option>
-            <option value="low">Low</option>
-            <option value="regular">Regular</option>
-            <option value="high">High</option>
+            <option value="3">Low</option>
+            <option value="2">Regular</option>
+            <option value="1">High</option>
         </select>
         <div class="formBtns">
             <button id="saveAdd">Add</button>
@@ -99,9 +100,9 @@ const printEditForm = () => {
             <input id="dueDate" type="date" min="${minDate}">
             <select name="" id="priority">
                 <option value="" selected disabled>Priority</option>
-                <option value="low">Low</option>
-                <option value="regular">Regular</option>
-                <option value="high">High</option>
+                <option value="3">Low</option>
+                <option value="2">Regular</option>
+                <option value="1">High</option>
             </select>
             <div class="formBtns">
                 <button id="saveEdit">Save</button>
@@ -119,13 +120,12 @@ const addNewTodo = (project) => {
     const newTitle = document.getElementById("newTitleBox").value;
     const newDesc = document.getElementById("newDescriptionBox").value;
     const newDate = new Date(dateString);
-    const newPrio = document.getElementById("newPriority").value;
+    const newPrio = parseInt(document.getElementById("newPriority").value);
     //make new todo based on form input
     project.addTodo(newTitle, newDesc, newDate, newPrio);
     //reload the page
     renderProject(project);
 }
-
 
 //DELETE
 const deleteTodo = (event, project) => {
@@ -134,8 +134,7 @@ const deleteTodo = (event, project) => {
     if (result) {
         project.removeTodo(index);
         renderProject(project);
-    } else
-        return;
+    }
 }
 
 //TOGGLE COMPLETE
@@ -154,7 +153,7 @@ const saveEdit = (event, prj) => {
     const ttl = document.querySelector("#titleBox").value;
     const desc = document.querySelector("#descriptionBox").value;
     let dateInput = document.querySelector("#dueDate").value;
-    const prio = document.querySelector("#priority").value;
+    const prio = parseInt(document.querySelector("#priority").value);
     //add the T time part so it doesn't default to 
     //UTC midnight, which implies the previous day for Jamaica,
     //which sets the date back a day
@@ -163,7 +162,7 @@ const saveEdit = (event, prj) => {
 
     const index = getIndex(event, prj);
     prj.editTodo(index, ttl, desc, date, prio);
-    toggleEditTodoForm();
+    hideEditTodoForm();
     //reload the page
     renderProject(prj);
 }
@@ -188,7 +187,7 @@ const populateEditTodoForm = (event, proj) => {
     descriptionBox.value = oldInfo.description;
     datePicker.value = format(oldInfo.dueDate, "yyyy-MM-dd");
     priority.value = oldInfo.priority;
-    toggleEditTodoForm();
+    showEditTodoForm();
 }
 
 //return the index of a todo given the event and the project
@@ -200,7 +199,14 @@ const getIndex = (e, project) => {
 
 //functions for showing the add and edit forms
 const toggleAddTodoForm = () => { document.querySelector("#addTodoForm").classList.toggle("show") }
-const toggleEditTodoForm = () => { document.querySelector(".overlay").classList.toggle("show") }
+const showEditTodoForm = () => {
+    document.querySelector(".overlay").classList.toggle("show");
+    document.addEventListener("keydown", escToClose);
+}
+const hideEditTodoForm = () => {
+    document.querySelector(".overlay").classList.remove("show")
+    document.removeEventListener("keydown", escToClose);
+}
 
 //Put all the event listeners on the buttons we need
 const addTheEvents = (project) => {
@@ -210,8 +216,8 @@ const addTheEvents = (project) => {
     //program all the todos' buttons with forEach
     //getElements doesn't return an array, so convert it to one with Array.from()
     const editButtons = Array.from(document.getElementsByClassName("editTodoBtn"));
-    editButtons.forEach((editBtn) => {
-        editBtn.addEventListener("click", (e) => { populateEditTodoForm(e, project) });
+    editButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => { populateEditTodoForm(e, project) });
     });
     const deleteButtons = Array.from(document.getElementsByClassName("deleteBtn"));
     deleteButtons.forEach((btn) => {
@@ -223,5 +229,24 @@ const addTheEvents = (project) => {
         btn.addEventListener("click", (e) => { completeTodo(e, project) });
     });
     document.getElementById("saveEdit").addEventListener("click", (e) => saveEdit(e, project));
-    document.getElementById("cancelEdit").addEventListener("click", toggleEditTodoForm);
+    document.getElementById("cancelEdit").addEventListener("click", hideEditTodoForm);
+}
+//take priority and return the string version
+const priorityString = (number) => {
+    switch (number) {
+        case 1:
+            return "High";
+        case 2:
+            return "Regular";
+        case 3:
+            return "Low";
+        default:
+            alert("Invalid: Priority should be 1-3");
+            return "invalid";
+    }
+}
+
+const escToClose = (event) => {
+    if (event.key === "Escape")
+        hideEditTodoForm();
 }

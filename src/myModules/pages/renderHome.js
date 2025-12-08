@@ -14,21 +14,13 @@ export const renderHome = (AppArray) => {
     CONTENT.appendChild(mainContainer);
 
     //all these below elements go in mainContainer
-    let h2 = document.createElement("h2");
-    h2.textContent = "Welcome!";
-    mainContainer.appendChild(h2);
+    mainContainer.innerHTML += `
+        <h2>Welcome!</h2>
+        <p>${paraText}</p>
+        <hr>
+        <h3>Projects</h3>
+    `;
 
-    const introText = document.createElement("p");
-    introText.textContent = paraText;
-    mainContainer.appendChild(introText);
-
-    let hr = document.createElement("hr");
-    mainContainer.appendChild(hr);
-
-
-    let h3 = document.createElement("h3");
-    h3.textContent = "Projects";
-    mainContainer.appendChild(h3);
 
     let createProjectBtn = document.createElement("button");
     createProjectBtn.textContent = "Create Project";
@@ -45,10 +37,91 @@ export const renderHome = (AppArray) => {
     //Append the div for creating a project.
     createProjectDiv(AppArray, mainContainer);
 
-    AppArray.toReversed().forEach((proj) => {
+    AppArray.toReversed().forEach((proj, index) => {
         //Append the div for a project.
-        printProject(proj, mainContainer);
+        printProject(proj, mainContainer, index, AppArray);
     });
+    addExtraEvents(AppArray);
+}
+
+function printProject(proj, mainContainer, index, arr) {
+
+    const projContainer = document.createElement("div");
+    projContainer.classList.add("projCont");
+    projContainer.setAttribute("data-id", `${proj.id}`)
+
+    let h5 = document.createElement("h5");
+    h5.textContent = proj.title;
+    projContainer.appendChild(h5);
+
+    //Print the todos of the project
+    let todosList = document.createElement("ul");
+    //for each todo in the project, we make an li and
+    //append it to todosList
+    proj.todos.toReversed().forEach((todo) => {
+        //retrieve the title then due date of the todo
+        const title = todo.info.title;
+        const dueDate = format(todo.info.dueDate, "dd/MMM/yyyy");
+        //make the li and set its textContent to the retrieved info
+        let listItem = document.createElement("li");
+        listItem.innerHTML = `${title} <span class="minorTextHome">- Due ${dueDate}</span>`;
+        //add the li to the ul
+        todosList.appendChild(listItem);
+    });
+    projContainer.appendChild(todosList);
+
+    //only add a delete button if it's not the first one ie. the default project
+    if (index != arr.length - 1)
+        projContainer.innerHTML += `
+            <div class="btnDiv">
+                <button class="deleteProjBtn">Delete</button>
+            </div>
+        `;
+    projContainer.addEventListener("click", () => {
+        console.log(`the proj event listener is the problem`);
+        renderProject(proj);
+    })
+    mainContainer.appendChild(projContainer);
+}
+
+function addExtraEvents(AppArray) {
+    const deleteProjBtns = Array.from(document.querySelectorAll(".deleteProjBtn"));
+
+    deleteProjBtns.forEach((btn) => btn.addEventListener("click", (e) => { deleteProject(e, AppArray); }));
+};
+
+function deleteProject(event, arr) {
+    event.stopPropagation();
+    const projDiv = event.currentTarget.parentElement.parentElement;
+    const projId = projDiv.dataset.id;
+    console.log(`the id retrieved is ${projId}`);
+    const index = arr.findIndex((p) => p.id === projId);
+    console.log(`the index retrieved is ${index}`);
+
+    let result = confirm(`You are about to delete the project "${arr[index].title}".`);
+    if (result) {
+        //delete the project and refresh
+        arr.splice(index, 1);
+        renderHome(arr);
+    }
+}
+
+function saveNewProject(arr) {
+    let newTitle = document.getElementById("newProjName").value;
+    let newDesc = document.getElementById("newProjDesc").value;
+    //Create new project and push it to AppArray, using the Class we imported
+    arr.push(new Project(newTitle, newDesc));
+    //hide the create form
+    toggleCreateProjDiv();
+    //reload page
+    renderHome(arr);
+}
+
+function toggleCreateProjDiv() {
+    document.getElementById("createProjCont").classList.toggle("show");
+}
+function sendToDefault(AppArray) {
+    renderProject(AppArray[0], 1);
 }
 
 function createProjectDiv(AppArray, mainContainer) {
@@ -93,53 +166,3 @@ function createProjectDiv(AppArray, mainContainer) {
 
     mainContainer.appendChild(crProjectContainer);
 }
-
-function toggleCreateProjDiv() {
-    document.getElementById("createProjCont").classList.toggle("show");
-}
-function sendToDefault(AppArray) {
-    renderProject(AppArray[0], 1);
-}
-
-function printProject(proj, mainContainer) {
-
-    const projContainer = document.createElement("div");
-    projContainer.classList.add("projCont");
-    projContainer.setAttribute("data-id", `${proj.id}`)
-
-    let h5 = document.createElement("h5");
-    h5.textContent = proj.title;
-    projContainer.appendChild(h5);
-
-    //Print the todos of the project
-    let todosList = document.createElement("ul");
-    //for each todo in the project, we make an li and
-    //append it to todosList
-    proj.todos.toReversed().forEach((todo) => {
-        //retrieve the title then due date of the todo
-        const title = todo.info.title;
-        const dueDate = format(todo.info.dueDate, "dd/MMM/yyyy");
-        //make the li and set its textContent to the retrieved info
-        let listItem = document.createElement("li");
-        listItem.innerHTML = `${title} <span class="minorTextHome">- Due ${dueDate}</span>`;
-        //add the li to the ul
-        todosList.appendChild(listItem);
-    });
-
-
-    projContainer.appendChild(todosList);
-    projContainer.addEventListener("click", () => { renderProject(proj); })
-    mainContainer.appendChild(projContainer);
-}
-
-function saveNewProject(arr) {
-    let newTitle = document.getElementById("newProjName").value;
-    let newDesc = document.getElementById("newProjDesc").value;
-    //Create new project and push it to AppArray, using the Class we imported
-    arr.push(new Project(newTitle, newDesc));
-    //hide the create form
-    toggleCreateProjDiv();
-    //reload page
-    renderHome(arr);
-}
-

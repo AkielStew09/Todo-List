@@ -51,16 +51,14 @@ export class Project {
     constructor(title, description = "") {
         this.title = title;
         this.description = description;
-        this.todos = [new Todo("eg Todo", "placeholder todo", new Date("2026-05-25T23:59:00"), "high")];
+        this.todos = [];
+        // this.todos = [new Todo("eg Todo", "placeholder todo", new Date("2026-05-25T23:59:00"), 1)];
         this.id = crypto.randomUUID();
     }
 
-    get count() {
-        return this.todos.length;
-    }
     addTodo(title, description, dueDate, priority) {
         this.todos.push(new Todo(title, description, dueDate, priority));
-
+        this.todos.sort((a, b) => a.info.priority - b.info.priority);
     }
 
     removeTodo(index) {
@@ -72,6 +70,7 @@ export class Project {
 
     editTodo(index, title, description, dueDate, priority) {
         this.todos[index].setter = { title, description, dueDate, priority };
+        this.todos.sort((a, b) => a.info.priority - b.info.priority);
     }
 
     getIndex(id) {
