@@ -27,7 +27,7 @@ module.exports = {
     //this tells the dev server where to look and serve from
     devServer: {
         static: {
-            directory: path.resolve(__dirname, "dist")
+            directory: path.resolve(__dirname, "docs")
         }
     }
 }
