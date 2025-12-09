@@ -15,7 +15,7 @@ export const renderHome = (AppArray) => {
 
     //all these below elements go in mainContainer
     mainContainer.innerHTML += `
-        <h2>Welcome!</h2>
+        <h2>Welcome to Productivity!</h2>
         <p>${paraText}</p>
         <hr>
         <h3>Projects</h3>
