@@ -96,6 +96,7 @@ const printEditForm = () => {
             <input id="titleBox" type="text" placeholder="Title" class="todoTextbox">
             <br>
             <textarea id="descriptionBox" placeholder="Description" rows="3"></textarea>
+            <br>
             <label for="dueDate">Due Date:</label>
             <br>
             <input id="dueDate" type="date" min="${minDate}">
@@ -122,6 +123,10 @@ const addNewTodo = (project) => {
     const newDesc = document.getElementById("newDescriptionBox").value;
     const newDate = new Date(dateString);
     const newPrio = parseInt(document.getElementById("newPriority").value);
+    if (!newPrio) {
+        alert(`Invalid input: Priority should be selected`);
+        return;
+    }
     //make new todo based on form input
     project.addTodo(newTitle, newDesc, newDate, newPrio);
     //reload the page
@@ -155,6 +160,10 @@ const saveEdit = (event, prj) => {
     const desc = document.querySelector("#descriptionBox").value;
     let dateInput = document.querySelector("#dueDate").value;
     const prio = parseInt(document.querySelector("#priority").value);
+    if (!prio) {
+        alert(`Invalid input: Priority should be selected`);
+        return;
+    }
     //add the T time part so it doesn't default to 
     //UTC midnight, which implies the previous day for Jamaica,
     //which sets the date back a day
@@ -242,8 +251,8 @@ const priorityString = (number) => {
         case 3:
             return "Low";
         default:
-            alert("Invalid: Priority should be 1-3");
-            return "invalid";
+            console.log(`${number} is invalid: Priority should be 1-3`);
+            return "Invalid";
     }
 }
 
