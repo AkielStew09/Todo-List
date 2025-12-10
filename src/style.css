@@ -226,6 +226,10 @@ textarea {
     width: 100%;
 }
 
+input.todoTextbox {
+    max-width: 100%;
+}
+
 .listedTodos label,
 option {
     font-size: 1rem;
@@ -367,5 +371,11 @@ button {
     .mainContainer {
         padding: 3% 3%;
 
+    }
+}
+
+@media (max-width: 400px) {
+    .mainContainerProj {
+        padding: 5% 3%;
     }
 }
