@@ -10,7 +10,7 @@ module.exports = {
     //object that describes where webpack's output file
     output: {
         filename: "main.js",
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "docs"),
     },
     //object that contains the rules for loaders, which is basically how webpack deals with non js files
     module: {
