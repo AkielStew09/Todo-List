@@ -220,6 +220,7 @@ textarea {
     font-weight: 100;
     padding: 0.3rem 0.5rem 0.3rem;
     margin: 0.7rem 0;
+    max-width: 100%;
 }
 
 textarea {
@@ -259,6 +260,7 @@ option {
     display: flex;
     justify-content: flex-end;
     gap: 0.4rem;
+    max-width: 100%;
 
 }
 
@@ -324,7 +326,7 @@ button {
     background: var(--darkestTransparent);
     justify-content: center;
     align-items: center;
-    padding: 0 20rem 0;
+    padding: 0 20rem;
 }
 
 .overlay.show {
@@ -341,6 +343,10 @@ button {
 
 @media (max-width: 890px) {
 
+    nav h1 {
+        font-size: 1.7rem;
+    }
+
     nav {
         flex-direction: column;
         justify-content: center;
@@ -351,26 +357,54 @@ button {
     nav .navlinks {
         flex-direction: column;
         position: static;
+        padding: 0;
     }
 
+    .mainContainerProj p {
+        margin: 1.2rem 0.2rem;
+        font-size: 1rem;
+    }
+
+    select {
+        display: block;
+    }
+
+    .listedTodos .formBtns {
+        gap: 0.07%;
+        justify-content: center;
+    }
+
+    .minorTextProj {
+        /* display: inline-block; */
+        /* max-width: 100%; */
+        font-size: 58%;
+    }
 }
 
 @media (max-width: 780px) {
-    html {
-        font-size: 95%;
+
+    .mainContainer {
+        padding: 6% 3%;
     }
 
-    nav h1 {
-        font-size: 7vw;
+    .mainContainer h2 {
+        font-size: 1.2em;
+        font-weight: 500;
     }
+
 
     .content {
         padding: 2% 6%;
     }
 
-    .mainContainer {
-        padding: 3% 3%;
 
+    .mainContainer p {
+        margin: 1.2rem 0.1rem;
+        font-size: 1rem;
+    }
+
+    .overlay {
+        padding: 0 50%;
     }
 }
 
@@ -378,4 +412,5 @@ button {
     .mainContainerProj {
         padding: 5% 3%;
     }
+
 }
