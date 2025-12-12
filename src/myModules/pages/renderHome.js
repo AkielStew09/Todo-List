@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { renderProject } from "./renderProject.js";
 
 export const renderHome = (AppArray) => {
-    const paraText = "Get-It-Done is a Todo list app here to help you stay on top of your tasks. Add tasks and keep them organized in projects so you never miss a step or do one out of order. Enjoy the productivity and peace of mind that our elite record keeping offers."
+    const paraText = "Get-It-Done is a To-do list app, here to help you stay on top of your tasks. Add tasks and keep them organized in projects so you never miss a step. Enjoy the productivity and peace of mind that our elite record keeping offers. Click on a project to open it and add tasks to it."
 
     const CONTENT = document.querySelector("#content");
     CONTENT.innerHTML = "";
