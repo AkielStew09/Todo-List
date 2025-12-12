@@ -62,9 +62,11 @@ function printProject(proj, mainContainer, index, arr) {
         //retrieve the title then due date of the todo
         const title = todo.info.title;
         const dueDate = format(todo.info.dueDate, "dd/MMM/yyyy");
+        const dueMessage = `- Due ${dueDate}`;
+        const minorText = todo.info.isCompleted ? "done" : dueMessage;
         //make the li and set its textContent to the retrieved info
         let listItem = document.createElement("li");
-        listItem.innerHTML = `${title} <span class="minorTextHome">- Due ${dueDate}</span>`;
+        listItem.innerHTML = `${title} <span class="minorTextHome">${minorText}</span>`;
         //add the li to the ul
         todosList.appendChild(listItem);
     });

@@ -32,9 +32,10 @@ const printTodos = (project) => {
             const id = info.id;
             const title = info.title;
             const desc = info.description;
-            const dateDisplay = format(info.dueDate, "dd MMM yyyy");
+            const dateString = format(info.dueDate, "dd MMM yyyy");
             const prioStr = priorityString(info.priority);
             const done = info.isCompleted;
+            const minorText = done ? "" : `, Due ${dateString}`;
 
             //prefix for the className on the complete button
             //adds an 'in' if the todo is incomplete
@@ -42,7 +43,7 @@ const printTodos = (project) => {
             return `
             <div class="listedTodos" data-id=${id}>
                 <h5>${title}</h5>
-                <span class="minorTextProj">- ${prioStr} Priority, Due ${dateDisplay}</span>
+                <span class="minorTextProj">- ${prioStr} Priority${minorText}</span>
                 ${desc}
                 <div class="formBtns">
                     <button id="completeBtn" class="${prefix}completeBtn switch">${done ? "Complete" : "Incomplete!"}</button>
