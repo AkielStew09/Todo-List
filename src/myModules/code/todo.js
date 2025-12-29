@@ -14,6 +14,8 @@ class Todo {
 
         this.#isCompleted = false;
         this.#id = crypto.randomUUID();
+
+        lsWork();
     }
 
     //toggles Completion
@@ -48,12 +50,13 @@ class Todo {
 
 export class Project {
     //This class will have a title and an array of todos in it
-    constructor(title, description = "") {
+    constructor(title, description = "", shouldShow = true) {
         this.title = title;
         this.description = description;
         this.todos = [];
         // this.todos = [new Todo("eg Todo", "placeholder todo", new Date("2026-05-25T23:59:00"), 1)];
         this.id = crypto.randomUUID();
+        if (shouldShow) lsWork();
     }
 
     addTodo(title, description, dueDate, priority) {
@@ -83,4 +86,10 @@ export class Project {
 }
 
 //there should be a default project for when the user clicks to create a todo but has no projects.
-export let AppArray = [new Project("default", "This is the default project. When you create a todo without a project it goes here.")];
+export let AppArray = [new Project("default", "This is the default project. When you create a todo without a project it goes here.", false)];
+
+function lsWork() {
+    alert("local storage work");
+    localStorage.setItem("wholeApp", JSON.stringify(AppArray));
+
+}
