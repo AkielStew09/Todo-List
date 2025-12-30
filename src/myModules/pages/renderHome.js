@@ -1,4 +1,3 @@
-//get Project so you can create a new project on this page.
 import { Project, setStorage } from "../code/todo.js";
 import { format } from "date-fns";
 import { renderProject } from "./renderProject.js";
@@ -73,17 +72,33 @@ function printProject(proj, mainContainer, index, arr) {
     projContainer.appendChild(todosList);
 
     //only add a delete button if it's not the first one ie. the default project
+    //we don't want users to be able to delete the default project
     if (index != arr.length - 1)
         projContainer.innerHTML += `
             <div class="btnDiv">
                 <button class="deleteProjBtn">Delete</button>
             </div>
         `;
+
+    //when you click a project, you are brough to its page
     projContainer.addEventListener("click", () => {
-        // console.log(`the proj event listener is the problem`);
         renderProject(proj);
     })
     mainContainer.appendChild(projContainer);
+}
+
+function saveNewProject(arr) {
+    let newTitle = document.getElementById("newProjName").value;
+    let newDesc = document.getElementById("newProjDesc").value;
+    //Create new project and push it to AppArray, using the Class we imported
+    arr.push(new Project(newTitle, newDesc));
+
+    //saves to local storage after creating new Todo
+    setStorage();
+    //hide the create form
+    toggleCreateProjDiv();
+    //reload page
+    renderHome(arr);
 }
 
 function addExtraEvents(AppArray) {
@@ -110,19 +125,6 @@ function deleteProject(event, arr) {
     }
 }
 
-function saveNewProject(arr) {
-    let newTitle = document.getElementById("newProjName").value;
-    let newDesc = document.getElementById("newProjDesc").value;
-    //Create new project and push it to AppArray, using the Class we imported
-    arr.push(new Project(newTitle, newDesc));
-
-    //saves to local storage after creating new Todo
-    setStorage();
-    //hide the create form
-    toggleCreateProjDiv();
-    //reload page
-    renderHome(arr);
-}
 
 function toggleCreateProjDiv() {
     document.getElementById("createProjCont").classList.toggle("show");

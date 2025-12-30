@@ -1,0 +1,44 @@
+Todo List Pseudocode
+
+The todos will ofc be objects of some kind, with titles descriptions, due dates etc. 
+
+
+Projects:
+I could implement the projects as a class that has an array field which stores the todos in it. It would have methods for adding and removing todos as well. 
+
+fields:
+    name
+    count - to keep track of how many todos are in it
+    list - array of todos
+
+methods: 
+    Constructor(that takes  a name, and maybe an initial todo)
+    addTodo - which takes a todo and adds it to the list
+    removeTodo - which could take the name of the todo, or some other id and use that to delete it from 
+                 the list of todos.
+
+
+Todos:
+fields:
+    title, description, dueDate, priority, bool for isCompleted which would start as false
+   
+methods:
+    constructor which takes in most of the data for the fields
+    complete() which would set the isCompleted to true
+    uncomplete() which does the opposite
+
+
+App:
+I'll have a general class like App with an array of projects, that is initialized with a default one as the instructions state.
+
+
+UI Design:
+
+I have been designing the UI so far using html and static info to act as examples for how divs will look. Once designed, I'll replace the inner html using js dom scripting to create and add the elements. The click events will be a bit tricky I'm guessing, given the fact that I need to make sure that the clicked element matches the right object in code and causes the function to be carried out on the right todo object for example. I gave the todos an id field in case I need it.
+
+Now it's time to render the pages using js. I think I'll just have a home page with the projects, a page for a certain project when you click on it, and an about page. I'm realising I forgot to make a form where you make a  project. Annoying
+
+Anyway instead of an App class I think I'll just make a simple array and put it in the todo.js along with the two classes. It can be exported along with them and I think that would be very manageable. I'm realising how many buttons I have to add. 
+
+I need to add two buttons to the home page: one for creating a project, which could open a simple form right there, and one for creating a todo without a project which will add the todo to the default project. This will actually take a while damn. I'm not sure how I'm gonna carry out or store all these click functions for conditional rendering. Let's try and we'll see.
+ 
