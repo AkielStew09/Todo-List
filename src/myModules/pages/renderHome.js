@@ -1,5 +1,5 @@
 //get Project so you can create a new project on this page.
-import { Project } from "../code/todo.js";
+import { Project, setStorage } from "../code/todo.js";
 import { format } from "date-fns";
 import { renderProject } from "./renderProject.js";
 
@@ -80,7 +80,7 @@ function printProject(proj, mainContainer, index, arr) {
             </div>
         `;
     projContainer.addEventListener("click", () => {
-        console.log(`the proj event listener is the problem`);
+        // console.log(`the proj event listener is the problem`);
         renderProject(proj);
     })
     mainContainer.appendChild(projContainer);
@@ -105,6 +105,8 @@ function deleteProject(event, arr) {
         //delete the project and refresh
         arr.splice(index, 1);
         renderHome(arr);
+        //save to local Storage after deletion
+        setStorage();
     }
 }
 
@@ -113,6 +115,9 @@ function saveNewProject(arr) {
     let newDesc = document.getElementById("newProjDesc").value;
     //Create new project and push it to AppArray, using the Class we imported
     arr.push(new Project(newTitle, newDesc));
+
+    //saves to local storage after creating new Todo
+    setStorage();
     //hide the create form
     toggleCreateProjDiv();
     //reload page

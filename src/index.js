@@ -9,4 +9,12 @@ YourProjectsBtn.addEventListener("click", () => renderHome(AppArray));
 const darkBtn = document.querySelector(".darkModeBtn");
 darkBtn.addEventListener("click", toggleDark);
 
-renderHome(AppArray);
+let lsAppArray = null;
+if (localStorage.getItem("wholeApp")) {
+    alert("retrieving local storage");
+    console.log(JSON.parse(localStorage.getItem("wholeApp")));
+    lsAppArray = JSON.parse(localStorage.getItem("wholeApp"));
+}
+
+lsAppArray ? renderHome(lsAppArray) : renderHome(AppArray);
+
