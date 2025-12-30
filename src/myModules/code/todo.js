@@ -93,17 +93,38 @@ export class Project {
         const realProject = new Project(plain.title, plain.description);
         realProject.todos = plain.todos.map(todo => Todo.fromJSON(todo));
         realProject.id = plain.id;
-
+        return realProject;
     }
 }
 
 //there should be a default project for when the user clicks to create a todo but has no projects.
-export let AppArray = [new Project("default", "This is the default project. When you create a todo without a project it goes here.")];
+export let AppArray = [];
+
+
 
 export function setStorage() {
-    alert("setting local storage");
+    console.log("setting local storage");
+    //This JSON.stringify function makes the data storable and displayable
+    //however it removes any functions.
+    //These functions have to be re added
     localStorage.setItem("wholeApp", JSON.stringify(AppArray));
     console.log("we just stored the below array");
     console.log(JSON.parse(localStorage.getItem("wholeApp")));
+}
 
+export function getStorage() {
+    if (localStorage.getItem("wholeApp")) {
+        console.log("retrieving data from localStorage");
+
+        //return the parsed data but without methods
+        let parsedArray = JSON.parse(localStorage.getItem("wholeApp"));
+
+        //add methods to it so it is ready now
+        AppArray = parsedArray.map(project => Project.fromJSON(project));
+    } else {
+        //the original default behaviour of AppArray
+        console.log("loading default AppArray");
+        AppArray = [new Project("default", "This is the default project. When you create a todo without a project it goes here.")];
+        console.log(`AppArray is ${JSON.stringify(AppArray)}`);
+    }
 }

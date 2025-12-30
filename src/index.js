@@ -1,7 +1,9 @@
 import "./style.css";
 import { renderHome } from "./myModules/pages/renderHome.js";
 import { toggleDark } from "./myModules/pages/darkMode.js";
-import { AppArray } from "./myModules/code/todo.js";
+import { AppArray, getStorage } from "./myModules/code/todo.js";
+
+getStorage();
 
 const YourProjectsBtn = document.querySelector(".projectsLink");
 YourProjectsBtn.addEventListener("click", () => renderHome(AppArray));
@@ -9,12 +11,6 @@ YourProjectsBtn.addEventListener("click", () => renderHome(AppArray));
 const darkBtn = document.querySelector(".darkModeBtn");
 darkBtn.addEventListener("click", toggleDark);
 
-let lsAppArray = null;
-if (localStorage.getItem("wholeApp")) {
-    alert("retrieving local storage");
-    console.log(JSON.parse(localStorage.getItem("wholeApp")));
-    lsAppArray = JSON.parse(localStorage.getItem("wholeApp"));
-}
 
-lsAppArray ? renderHome(lsAppArray) : renderHome(AppArray);
+renderHome(AppArray);
 
