@@ -130,8 +130,6 @@ function toggleCreateProjDiv() {
     document.getElementById("createProjCont").classList.toggle("show");
 }
 function sendToDefault(AppArray) {
-    alert("Hello, I am sendToDefault");
-    alert(`AppArray is ${JSON.stringify(AppArray)}`);
     renderProject(AppArray[0], 1);
 }
 
